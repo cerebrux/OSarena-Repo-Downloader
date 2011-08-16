@@ -1,0 +1,107 @@
+#!/bin/bash
+#______________________________________________________________________________
+#Author: Salih Emin <cerebrux.gr [at] gmail.com>
+#Website: http://osarena.net
+#Licence: GPL3 (http://www.gnu.org/licenses/gpl.html)
+#Version: 2.0 (first rlease 19-07-11)
+#Περιγραφή:
+#Αυτό το εργαλείο χρησιμεύει για την εγκατάσταση (δημιουργίας κλώνου) του 
+#αποθετηρίου του OSarena στον αρχικό κατάλογο του χρήστη.
+#______________________________________________________________________________
+
+#Διάφορα μηνύματα του προγράμματος
+WindowTitle=$"OSarena.net"
+MessageProgressTitle=$"Repository Installer v2.0"
+MessageIntro=$"Παρακλώ σιγουρευτείτε οτι έχετε εγκαταστήσει το <b>GIT</b> στο σύστημά σας\nΑν δεν είναι εγκατεστημένο, κάντε το τώρα <b>χωρίς να κλείσετε</b> αυτό το παράθυρο.\nΑφού το έχετε εγκαταστήσει πατήστε 'Εντάξει' "
+MessageCreateFolder=$"# \n Δημιουργία αρχικού φακέλου 'OSarenaRepo' "
+MessageIntoFolder=$"# \n Είσοδος στον φάκελο 'OSarenaRepo' "
+MessageCloneRepo=$"# \n Λήψη αποθετηρίου"
+MessageMakeBinUpdate=$"# \n Ενεργοποίηση του update-repo"
+MessageCompleteRepo=$"# \n Ολοκλήρωση διεργασιών"
+MessageEnd=$"Οι διεργασίες έχουν ολοκληρωθεί \n Πρακαλώ ελέγξτε τον φάκελο 
+               <b>'OSarenaRepo'</b> "
+
+#Εισαγωγικό μήνυμα
+zenity --info \
+       --title "$WindowTitle" \
+       --width 100 \
+       --text "$MessageIntro"
+
+#Κεντρικό παράθυρο επιλογών
+user_selection=$(zenity  --list  \
+                                    --width="400" \
+                                    --height="250" \
+                                    --text "Διαλέξτε ποιά αποθετήρια θέλετε να εγκατασταθούν\nστον <b>Αρχικό Κατάλογό</b> σας\n" \
+                                    --checklist  --column "Επιλογή" --column "Αποθετήριο" \
+                                    TRUE "Linux Apps" \
+                                    FALSE "Android Apps" \
+                                    FALSE "Ubuntu Apps" \
+                                    FALSE "Cinux Apps"\
+                                    --separator=":")
+#Σε περίπτωση που ο χρήστης πατήσει "Ακύρωση":
+if [ $? -eq 1 ] ; 
+   then
+         zenity --info \
+             --text="Η εγκατάσταση αποθετηρίου <b>Ακυρώθηκε</b>"
+         exit 1
+fi
+
+(
+#Ακολουθούν οι εσωτερικές διεργασίες του πυρήνα του προγράμματος ---->
+sleep 1
+set -x
+echo "10" && \
+#_________________________________________________________
+echo "$MessageCreateFolder" && \
+mkdir OSarenaRepo                     #Δημιουργία φακέλου
+echo "20" && \
+sleep 2
+#_________________________________________________________
+echo "$MessageIntoFolder" && \
+cd OSarenaRepo                                  #Είσοδος στον φάκελο
+echo "30" && \
+sleep 2
+#Λήψη Πρώτου αποθετηρίου
+echo "$MessageCloneRepo" && \
+[[ $user_selection = *Linux* ]] && git clone git://github.com/osarena/Linux-Apps.git && \
+echo "30" && \
+echo "$MessageMakeBinUpdate" && \
+chmod 775 Linux-Apps/update-repo && \
+echo "40"
+#Λήψη Δεύτερου αποθετηρίου
+echo "$MessageCloneRepo" && \
+[[ $user_selection = *Android* ]] && git clone git://github.com/osarena/Android-Apps.git && \
+echo "50" && \
+echo "$MessageMakeBinUpdate" && \
+chmod 775 Android-Apps/update-repo
+echo "60"
+#Λήψη Τρίτου αποθετηρίου
+echo "$MessageCloneRepo" && \
+[[ $user_selection = *Ubuntu* ]] && git clone git://github.com/osarena/Ubuntu-Apps.git && \
+echo "70" && \
+echo "$MessageMakeBinUpdate" && \
+chmod 775 Ubuntu-Apps/update-repo
+echo "80"
+#Λήψη Τέταρτου αποθετηρίου
+echo "$MessageCloneRepo" && \
+[[ $user_selection = *Cinux* ]] && git clone git://github.com/osarena/Cinux-Apps.git && \
+echo "90" && \
+echo "$MessageMakeBinUpdate" && \
+chmod 775 Cinux-Apps/update-repo
+echo "$MessageCompleteRepo" && \
+echo "99%" && \
+sleep 2
+set +x
+#<----- Ολοκλήρωση εσωτερικών διεργασιών του πυρήνα του προγράμματος
+) | $(zenity --width 300 \
+           --height 150 \
+           --progress \
+           --percentage=1 \
+           --title "$WindowTitle | $MessageProgressTitle" \
+           --text=$"Εγκατάσταση του αποθετηρίου. Παρακλώ περιμένετε..." \
+           --auto-close) 
+#Τελευταίο μήνυμα ολοκλήρωσης διεργασιών
+zenity --info \
+       --title "$WindowTitle" \
+       --width 100 \
+       --text "$MessageEnd"
