@@ -53,12 +53,12 @@ set -x
 echo "10" && \
 #_________________________________________________________
 echo "$MessageCreateFolder" && \
-mkdir OSarenaRepo                     #Δημιουργία φακέλου
+mkdir ~/OSarenaRepo                     #Δημιουργία φακέλου
 echo "20" && \
 sleep 2
 #_________________________________________________________
 echo "$MessageIntoFolder" && \
-cd OSarenaRepo                                  #Είσοδος στον φάκελο
+cd ~/OSarenaRepo                                  #Είσοδος στον φάκελο
 echo "30" && \
 sleep 2
 #Λήψη Πρώτου αποθετηρίου
