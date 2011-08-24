@@ -43,7 +43,7 @@ then
 	user_selection=$(zenity  --list  \
                                     --width="400" \
                                     --height="250" \
-                                    --text "Διαλέξτε ποιά αποθετήρια θέλετε να εγκατασταθούν\nστον <b>Αρχικό Κατάλογό</b> σας\n" \
+                                    --text "Διαλέξτε ποιές αποθήκες θέλετε να περιλαμβάνονται\nστο αποθετήριο OSarenaRepo στον <b>Αρχικό Κατάλογό</b> σας\n" \
                                     --checklist  --column "Επιλογή" --column "Αποθετήριο" \
                                     TRUE "Linux Apps" \
                                     FALSE "Android Apps" \
@@ -108,7 +108,7 @@ echo "90" && \
 echo "$MessageMakeBinUpdate" && \
 chmod 775 Cinux-Apps/update-repo
 echo "$MessageCompleteRepo" && \
-echo "99%" && \
+echo "99" && \
 sleep 2
 set +x
 #<----- Ολοκλήρωση εσωτερικών διεργασιών του πυρήνα του προγράμματος
