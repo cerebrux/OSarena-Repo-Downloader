@@ -18,7 +18,7 @@ MessageIntoFolder=$"# \n Είσοδος στον φάκελο 'OSarenaRepo' "
 MessageCloneRepo=$"# \n Λήψη αποθετηρίου"
 MessageMakeBinUpdate=$"# \n Ενεργοποίηση του update-repo"
 MessageCompleteRepo=$"# \n Ολοκλήρωση διεργασιών"
-MessageEnd=$"Οι διεργασίες έχουν ολοκληρωθεί \n Πρακαλώ ελέγξτε τον φάκελο 
+MessageEnd=$"Οι διεργασίες έχουν ολοκληρωθεί \n Παρακαλώ ελέγξτε τον φάκελο 
                <b>'OSarenaRepo'</b> "
 
 #Έλεγχος για την ύπαρξη του Zenity στο σύστημα του χρήστη
